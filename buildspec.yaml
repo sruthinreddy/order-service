@@ -25,8 +25,16 @@ phases:
        - docker push $REPOSITORY_URI:latest
        - docker push $REPOSITORY_URI:$IMAGE_TAG
        - echo Writing image definitions file...
-       - printf '[{"name:"course-service","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > image
+       - printf '[{"name:"course-service","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
        - echo Writing image definitions file...
        # add your container name
        - DOCKER_CONTAINER_NAME=order-service
-       - printf '[{"name":"%s"}]' $DOCKER_CONTAINER_NAME $REPOSITORY_URI:$IMAGE
+       - printf '[{"name":"%s"}]' $DOCKER_CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+       - echo $DOCKER_CONTAINER_NAME
+       - echo printing imagedefinitions.json
+       - cat imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
+    - target/order.jar
